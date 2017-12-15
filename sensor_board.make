@@ -1,4 +1,4 @@
-PROJECT=sensor-board
+PROJECT=sensor_board
 SOURCES=$(PROJECT).c
 MMCU=attiny45
 F_CPU = 8000000

@@ -381,6 +381,7 @@ void put_char(volatile unsigned char *port, unsigned char pin, char txchar) {
 
       unsure why Neil had this unrolled
     */ 
+   /*
    int i; 
    for (i = 0; i < 8; i++) {
       if bit_test(txchar, i)
@@ -389,7 +390,48 @@ void put_char(volatile unsigned char *port, unsigned char pin, char txchar) {
          clear(*port,pin);
       bit_delay();      
    }
+   */
 
+   if bit_test(txchar, 0)
+      set(*port,pin);
+   else
+      clear(*port,pin);
+   bit_delay();      
+   if bit_test(txchar, 1)
+      set(*port,pin);
+   else
+      clear(*port,pin);
+   bit_delay();      
+   if bit_test(txchar, 2)
+      set(*port,pin);
+   else
+      clear(*port,pin);
+   bit_delay();      
+   if bit_test(txchar, 3)
+      set(*port,pin);
+   else
+      clear(*port,pin);
+   bit_delay();      
+   if bit_test(txchar, 4)
+      set(*port,pin);
+   else
+      clear(*port,pin);
+   bit_delay();      
+   if bit_test(txchar, 5)
+      set(*port,pin);
+   else
+      clear(*port,pin);
+   bit_delay();      
+   if bit_test(txchar, 6)
+      set(*port,pin);
+   else
+      clear(*port,pin);
+   bit_delay();      
+   if bit_test(txchar, 7)
+      set(*port,pin);
+   else
+      clear(*port,pin);
+   bit_delay();      
    //
    // stop bit
    //
