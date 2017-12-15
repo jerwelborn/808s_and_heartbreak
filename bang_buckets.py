@@ -1,57 +1,31 @@
-#
-# runs on raspberry pi
-#
-# adapted from hello.txrx.45.py, term.py 
-#
-#
+"""
+   
+   bang-buckets.py 
+   Jeremy Welborn
+   available at https://github.com/jerwelborn/bucket-banging
+   
+
+   runs on raspberry pi
+
+   acknowledgements: figured out serial from 
+   hello.txrx.45.py (available at http://academy.cba.mit.edu/classes/input_devices/step/hello.txrx.45.py),
+   term.py (available at http://academy.cba.mit.edu/classes/input_devices/python/term.py)
+
+
+   TODO:
+   - thresholding function - tune baseline_signal, delta i.e. if abs(signal- baseline_signal) > delta:
+   - audio w/ pygame.mixer, pygame.mixer.music which abstracts away of threading, allowing overlay of sound
+   - recall, alsamixer can be used to the sound card's volume. should have this high but do volume adjustments with
+   pygame proportional to signal - baseline_signal
+   - button hardware??? do this with a breadboard 1st to see how this affects synchonrization
+
+"""
 
 from bang_buckets_util import *
+import RPi.GPIO as GPIO
 import time
 import serial
 from serial import Serial
-
-global filt, eps
-
-def get_signal(board_addr):
-      
-   byte2 = 0
-   byte3 = 0
-   byte4 = 0
-   ser.flush()
-
-
-   # while 1:
-   #
-   # find framing 
-   #
-   while 1:
-      byte1 = byte2
-      byte2 = byte3
-      byte3 = byte4
-      byte4 = ord(ser.read())
-      if ((byte1 == 1) & (byte2 == 2) & (byte3 == 3) & (byte4 == 4)):
-         break
-
-   # read 
-   up_low = ord(ser.read())
-   # print "up_load: ", up_low
-   up_high = ord(ser.read())
-   # print "up_high: ", up_high
-   down_low = ord(ser.read())
-   # print "down_low: ", down_low
-   down_high = ord(ser.read())
-   # print "down_high: ", down_high
-
-   up_value = 256*up_high + up_low
-   down_value = 256*down_high + down_low
-      
-   #
-   # this is what we're interested in (for detecting a big delta in magnitude)
-   # 
-   value = (up_value - down_value)
-   print "value from board " + str(board_addr) + ": " + str(value)
-   # filt = (1-eps)*filt + eps*value
-   # print "filtered value: ", filt
 
 
 # run as a raspberry pi script
@@ -82,7 +56,11 @@ if __name__ == "__main__":
 
          ser.write(str(board_addr)) # what's being written is a str in term.py
 
-         get_signal(board_addr)
+         val = get_signal(board_addr)
+         print "value from board " + str(board_addr) + ": " + str(val)
+
+
+
 
 
 
